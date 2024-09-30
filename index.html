@@ -40,14 +40,19 @@ The quick brown fox jumps over the lazy dog</textarea
             <button id="encodeButton" disabled>ENCODE</button>
             <button id="decodeButton">DECODE</button>
           </div>
-          <button class="poppins-semibold fs-3">
-            CAESAR CIPHER
+          <!-- Button trigger modal menu-->
+          <button
+            class="poppins-semibold fs-3 d-flex align-items-center justify-content-center mx-auto"
+            data-bs-toggle="modal"
+            data-bs-target="#menuModal"
+          >
+            <h3 class="fs-3 mb-0" id="menuTitle">CAESAR CIPHER</h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
               height="20"
               fill="currentColor"
-              class="bi bi-chevron-down"
+              class="bi bi-chevron-down ms-2"
               viewBox="0 0 16 16"
             >
               <path
@@ -56,30 +61,54 @@ The quick brown fox jumps over the lazy dog</textarea
               />
             </svg>
           </button>
-          <table class="mt-5 mx-auto" style="border-collapse: collapse">
-            <tr>
-              <td colspan="4" class="p-2 poppins-medium">SHIFT BY</td>
-            </tr>
-            <tr>
-              <td class="p-2" id="minusButton"><button>-</button></td>
-              <td colspan="2" class="p-2">
-                <input class="input-shift" type="text" id="shift" />
-              </td>
-              <td class="p-2" id="plusButton"><button>+</button></td>
-            </tr>
-            <tr>
-              <td colspan="4" class="p-2 poppins-medium">CASE STRATEGY</td>
-            </tr>
-            <tr>
-              <td colspan="4" class="p-2">Cell 3,1</td>
-            </tr>
-            <tr>
-              <td colspan="4" class="p-2 poppins-medium">FOREIGN CHARACTERS</td>
-            </tr>
-            <tr>
-              <td colspan="4" class="p-2">Cell 3,1</td>
-            </tr>
-          </table>
+          <!-- modal for menu -->
+          <div
+            class="modal fade"
+            id="menuModal"
+            tabindex="-1"
+            aria-labelledby="menuModalLabel"
+            aria-hidden="true"
+            style="color: #0b132b"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Menu</h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <ul>
+                    <li>
+                      <div>
+                        <h2>CLASSIC</h2>
+                        <button id="menuCaesar">Caesar Cipher</button>
+                        <button id="menuRailFence">Rail Fence Cipher</button>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h2>MODERN</h2>
+                        <button>Caesar Cipher</button>
+                        <button>Rail Fence Cipher</button>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h2>SUPER ENCRYPTION</h2>
+                        <button>Caesar Cipher</button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="menuContent"></div>
         </div>
         <div class="col bg-4 ciphertext br-tr br-br">
           <p class="mt-120 mb-5 poppins-semibold fs-3" id="text-2">
@@ -98,6 +127,7 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
         </div>
       </div>
     </div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -110,6 +140,71 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
     ></script>
   </body>
   <script>
+    //menu
+    let menu = "caesarCipher";
+    const menuTitle = document.getElementById("menuTitle");
+    const menuContent = document.getElementById("menuContent");
+    const menuCaesar = document.getElementById("menuCaesar");
+    const menuRailFence = document.getElementById("menuRailFence");
+    const menuModal = new bootstrap.Modal(document.getElementById("menuModal"));
+
+    function updateMenuContent() {
+      switch (menu) {
+        case "caesarCipher":
+          menuContent.innerHTML = `
+                        <table class="mt-5 mx-auto" style="border-collapse: collapse">
+                            <tr>
+                                <td colspan="4" class="p-2 poppins-medium">SHIFT BY</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2" id="minusButton"><button>-</button></td>
+                                <td colspan="2" class="p-2">
+                                    <input class="input-shift" type="text" id="shift" />
+                                </td>
+                                <td class="p-2" id="plusButton"><button>+</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="p-2 poppins-medium">CASE STRATEGY</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="p-2">Cell 3,1</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="p-2 poppins-medium">FOREIGN CHARACTERS</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="p-2">Cell 3,1</td>
+                            </tr>
+                        </table>
+                    `;
+          break;
+        case "railFenceCipher":
+          menuContent.innerHTML = `
+                        <p>Rail Fence Cipher content goes here.</p>
+                    `;
+          break;
+        default:
+          menuContent.innerHTML = "";
+          break;
+      }
+    }
+
+    updateMenuContent();
+
+    menuCaesar.addEventListener("click", () => {
+      menu = "caesarCipher";
+      menuTitle.innerHTML = "CAESAR CIPHER";
+      updateMenuContent();
+      menuModal.hide();
+    });
+
+    menuRailFence.addEventListener("click", () => {
+      menu = "railFenceCipher";
+      menuTitle.innerHTML = "RAIL FENCE CIPHER";
+      updateMenuContent();
+      menuModal.hide();
+    });
+
     // Increment and Decrement Button Logic
     const minusButton = document.getElementById("minusButton");
     const plusButton = document.getElementById("plusButton");
