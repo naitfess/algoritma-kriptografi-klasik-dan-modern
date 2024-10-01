@@ -24,12 +24,14 @@
     <div class="container-fluid text-center d-flex justify-content-center">
       <div class="row align-items-center w-100">
         <div class="col bg-2 plaintext br-tl br-bl">
-          <p class="mt-120 mb-5 poppins-semibold fs-3" id="text-1">PLAINTEXT</p>
+          <p class="mt-120 mb-5 poppins-semibold fs-3" id="title-1">
+            PLAINTEXT
+          </p>
           <div class="input-plaintext mx-5 text-start">
             <textarea
               class="ta fs-4 bg-2 w-100 fixed-rows"
               rows="15"
-              id="plain"
+              id="text-1"
             >
 The quick brown fox jumps over the lazy dog</textarea
             >
@@ -109,16 +111,118 @@ The quick brown fox jumps over the lazy dog</textarea
             </div>
           </div>
           <div id="menuContent"></div>
+          <!-- button trigger modal about -->
+          <div>
+            <button
+              class="mt-5 poppins-semibold"
+              data-bs-toggle="modal"
+              data-bs-target="#aboutModal"
+            >
+              ABOUT
+            </button>
+          </div>
+          <!-- modal about -->
+          <div
+            class="modal fade"
+            id="aboutModal"
+            tabindex="-1"
+            aria-labelledby="aboutModalLabel"
+            aria-hidden="true"
+            style="color: #0b132b"
+          >
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="aboutModalLabel">ABOUT</h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row g-3 justify-content-center">
+                    <div class="col-2">
+                      <div class="card" style="width: 100%">
+                        <img
+                          src="..."
+                          class="card-img-top"
+                          alt="Profile Image"
+                        />
+                        <div class="card-body">
+                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
+                          <p class="card-text">123220112</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-2">
+                      <div class="card" style="width: 100%">
+                        <img
+                          src="..."
+                          class="card-img-top"
+                          alt="Profile Image"
+                        />
+                        <div class="card-body">
+                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
+                          <p class="card-text">123220112</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-2">
+                      <div class="card" style="width: 100%">
+                        <img
+                          src="..."
+                          class="card-img-top"
+                          alt="Profile Image"
+                        />
+                        <div class="card-body">
+                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
+                          <p class="card-text">123220112</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-2">
+                      <div class="card" style="width: 100%">
+                        <img
+                          src="..."
+                          class="card-img-top"
+                          alt="Profile Image"
+                        />
+                        <div class="card-body">
+                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
+                          <p class="card-text">123220112</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-2">
+                      <div class="card" style="width: 100%">
+                        <img
+                          src="..."
+                          class="card-img-top"
+                          alt="Profile Image"
+                        />
+                        <div class="card-body">
+                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
+                          <p class="card-text">123220112</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col bg-4 ciphertext br-tr br-br">
-          <p class="mt-120 mb-5 poppins-semibold fs-3" id="text-2">
+          <p class="mt-120 mb-5 poppins-semibold fs-3" id="title-2">
             CIPHERTEXT
           </p>
           <div class="input-plaintext mx-5 fs-3 text-start">
             <textarea
               class="ta fs-4 bg-4 w-100 fixed-rows"
               rows="15"
-              id="cipher"
+              id="text-2"
               disabled
             >
 uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
@@ -127,7 +231,6 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
         </div>
       </div>
     </div>
-
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -138,9 +241,13 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
       integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
+    <!-- caesar cipher -->
+    <script src="js/caesarCipher.js"></script>
+    <!-- rail fence cipher -->
+    <script src="js/railFenceCipher.js"></script>
   </body>
   <script>
-    //menu
+    // Menu state and elements
     let menu = "caesarCipher";
     const menuTitle = document.getElementById("menuTitle");
     const menuContent = document.getElementById("menuContent");
@@ -148,53 +255,80 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
     const menuRailFence = document.getElementById("menuRailFence");
     const menuModal = new bootstrap.Modal(document.getElementById("menuModal"));
 
+    const text1 = document.getElementById("text-1");
+    const text2 = document.getElementById("text-2");
+    const judul1 = document.getElementById("title-1");
+    const judul2 = document.getElementById("title-2");
+
+    // Function to update menu content based on selected cipher
     function updateMenuContent() {
+      const caesarTemplate = `
+        <table class="mt-5 mx-auto" style="border-collapse: collapse">
+          <tr><td colspan="4" class="p-2 poppins-medium">SHIFT BY</td></tr>
+          <tr>
+            <td class="p-2" id="minusButton"><button>-</button></td>
+            <td colspan="2" class="p-2"><input class="input-shift" type="text" id="key" /></td>
+            <td class="p-2" id="plusButton"><button>+</button></td>
+          </tr>
+          <tr><td colspan="4" class="p-2 poppins-medium">CASE STRATEGY</td></tr>
+          <tr><td colspan="4" class="p-2">Cell 3,1</td></tr>
+          <tr><td colspan="4" class="p-2 poppins-medium">FOREIGN CHARACTERS</td></tr>
+          <tr><td colspan="4" class="p-2">Cell 3,1</td></tr>
+        </table>
+      `;
+
+      const railFenceTemplate = `
+        <table class="mt-5 mx-auto" style="border-collapse: collapse">
+          <tr><td colspan="4" class="p-2 poppins-medium">SHIFT BY</td></tr>
+          <tr>
+            <td class="p-2" id="minusButton"><button>-</button></td>
+            <td colspan="2" class="p-2"><input class="input-shift" type="text" id="key" /></td>
+            <td class="p-2" id="plusButton"><button>+</button></td>
+          </tr>
+        </table>
+      `;
+
       switch (menu) {
         case "caesarCipher":
-          menuContent.innerHTML = `
-                        <table class="mt-5 mx-auto" style="border-collapse: collapse">
-                            <tr>
-                                <td colspan="4" class="p-2 poppins-medium">SHIFT BY</td>
-                            </tr>
-                            <tr>
-                                <td class="p-2" id="minusButton"><button>-</button></td>
-                                <td colspan="2" class="p-2">
-                                    <input class="input-shift" type="text" id="shift" />
-                                </td>
-                                <td class="p-2" id="plusButton"><button>+</button></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="p-2 poppins-medium">CASE STRATEGY</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="p-2">Cell 3,1</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="p-2 poppins-medium">FOREIGN CHARACTERS</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="p-2">Cell 3,1</td>
-                            </tr>
-                        </table>
-                    `;
+          menuContent.innerHTML = caesarTemplate;
           break;
         case "railFenceCipher":
-          menuContent.innerHTML = `
-                        <p>Rail Fence Cipher content goes here.</p>
-                    `;
+          menuContent.innerHTML = railFenceTemplate;
           break;
         default:
-          menuContent.innerHTML = "";
+          menuContent.innerHTML = "Please Select a Menu";
           break;
       }
+
+      // Initialize button and key input
+      const minusButton = document.getElementById("minusButton");
+      const plusButton = document.getElementById("plusButton");
+      let key = document.getElementById("key");
+      key.value = 1;
+
+      // Add event listeners for buttons and key input
+      minusButton.addEventListener("click", () => {
+        key.value = parseInt(key.value) - 1;
+        runCode();
+      });
+
+      plusButton.addEventListener("click", () => {
+        key.value = parseInt(key.value) + 1;
+        runCode();
+      });
+
+      key.addEventListener("input", runCode);
     }
 
     updateMenuContent();
 
+    // Event listeners for cipher menu
     menuCaesar.addEventListener("click", () => {
       menu = "caesarCipher";
       menuTitle.innerHTML = "CAESAR CIPHER";
       updateMenuContent();
+      console.log(minusButton);
+      key.value = 1;
       menuModal.hide();
     });
 
@@ -202,109 +336,60 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
       menu = "railFenceCipher";
       menuTitle.innerHTML = "RAIL FENCE CIPHER";
       updateMenuContent();
+      key.value = 1;
       menuModal.hide();
     });
 
-    // Increment and Decrement Button Logic
-    const minusButton = document.getElementById("minusButton");
-    const plusButton = document.getElementById("plusButton");
-    const inputShift = document.querySelector(".input-shift");
+    // Swap encode and decode
+    let choice = "encode";
     const encodeButton = document.getElementById("encodeButton");
     const decodeButton = document.getElementById("decodeButton");
-    const plain = document.getElementById("plain");
-    const cipher = document.getElementById("cipher");
-    const shiftInput = document.getElementById("shift");
-    let choice = "encode"; // Default choice
 
-    inputShift.value = 1;
-
-    // Swap between encode and decode modes
     function swapMode() {
-      const textCipher = document.getElementById("cipher");
-      const judulCipher = document.getElementById("text-2");
-      const textPlain = document.getElementById("plain");
-      const judulPlain = document.getElementById("text-1");
-
-      // Swap titles
-      [judulPlain.innerHTML, judulCipher.innerHTML] = [
-        judulCipher.innerHTML,
-        judulPlain.innerHTML,
+      [judul1.innerHTML, judul2.innerHTML] = [
+        judul2.innerHTML,
+        judul1.innerHTML,
       ];
-
-      // Swap text values
-      [textPlain.value, textCipher.value] = [textCipher.value, textPlain.value];
+      [text1.value, text2.value] = [text2.value, text1.value];
     }
 
-    // Update encode/decode button states
     function updateButtonState(isEncode) {
       encodeButton.disabled = isEncode;
       decodeButton.disabled = !isEncode;
       choice = isEncode ? "encode" : "decode";
     }
 
-    // Event listeners for encode/decode buttons
-    decodeButton.addEventListener("click", () => {
-      swapMode();
-      updateButtonState(false);
-    });
-
     encodeButton.addEventListener("click", () => {
       swapMode();
       updateButtonState(true);
     });
 
-    // Alphabet shifting logic
-    const alphabet = "abcdefghijklmnopqrstuvwxyz";
-    let newalpha = "";
-
-    function shift(n) {
-      newalpha = ""; // Reset newalpha
-      for (let i = 0; i < alphabet.length; i++) {
-        let offset = (i + n) % alphabet.length;
-        newalpha += alphabet[offset];
-      }
-    }
-
-    // Generalized function for encoding and decoding
-    function processMessage(message, fromAlpha, toAlpha) {
-      let result = "";
-      message = message.toLowerCase();
-      for (let char of message) {
-        let index = fromAlpha.indexOf(char);
-        result += index === -1 ? char : toAlpha[index];
-      }
-      return result;
-    }
-
-    function encodeMessage(message) {
-      return processMessage(message, alphabet, newalpha);
-    }
-
-    function decodeMessage(message) {
-      return processMessage(message, newalpha, alphabet);
-    }
-
-    // Update the cipher text based on mode (encode/decode)
-    function updateCipher() {
-      shift(parseInt(shiftInput.value));
-      cipher.value =
-        choice === "encode"
-          ? encodeMessage(plain.value)
-          : decodeMessage(plain.value);
-    }
+    decodeButton.addEventListener("click", () => {
+      swapMode();
+      updateButtonState(false);
+    });
 
     // Event listeners for text and shift changes
-    plain.addEventListener("input", updateCipher);
-    shiftInput.addEventListener("input", updateCipher);
+    text1.addEventListener("input", runCode);
 
-    minusButton.addEventListener("click", () => {
-      inputShift.value = parseInt(inputShift.value) - 1;
-      updateCipher();
-    });
+    // Main function to handle encryption/decryption
+    function runCode() {
+      const shift = parseInt(key.value);
 
-    plusButton.addEventListener("click", () => {
-      inputShift.value = parseInt(inputShift.value) + 1;
-      updateCipher();
-    });
+      switch (menu) {
+        case "caesarCipher":
+          text2.value =
+            choice === "encode"
+              ? caesarCipher(text1.value, shift)
+              : caesarCipher(text1.value, -shift);
+          break;
+        case "railFenceCipher":
+          text2.value =
+            choice === "encode"
+              ? railFenceCipher(text1.value, shift)
+              : railFenceCipher(text1.value, -shift);
+          break;
+      }
+    }
   </script>
 </html>
