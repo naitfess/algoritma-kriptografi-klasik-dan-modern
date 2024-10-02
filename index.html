@@ -23,7 +23,7 @@
   <body class="d-flex justify-content-center align-items-center vh-100">
     <div class="container-fluid text-center d-flex justify-content-center">
       <div class="row align-items-center w-100">
-        <div class="col bg-2 plaintext br-tl br-bl">
+        <div id="bg-1" class="col bg-2 plaintext br-tl br-bl">
           <p class="mt-120 mb-5 poppins-semibold fs-3" id="title-1">
             PLAINTEXT
           </p>
@@ -39,8 +39,10 @@ The quick brown fox jumps over the lazy dog</textarea
         </div>
         <div class="col bg-3 menu">
           <div class="mt-75 fs-6">
-            <button id="encodeButton" disabled>ENCODE</button>
-            <button id="decodeButton">DECODE</button>
+            <button id="encodeButton" class="poppins-semibold" disabled>
+              ENCODE
+            </button>
+            <button id="decodeButton" class="poppins-light">DECODE</button>
           </div>
           <!-- Button trigger modal menu-->
           <button
@@ -95,8 +97,8 @@ The quick brown fox jumps over the lazy dog</textarea
                     <li>
                       <div>
                         <h2>MODERN</h2>
-                        <button>Caesar Cipher</button>
-                        <button>Rail Fence Cipher</button>
+                        <button id="menuXOR">XOR</button>
+                        <button id="menuRSA">RSA</button>
                       </div>
                     </li>
                     <li>
@@ -112,9 +114,9 @@ The quick brown fox jumps over the lazy dog</textarea
           </div>
           <div id="menuContent"></div>
           <!-- button trigger modal about -->
-          <div>
+          <div class="fixed-bottom text-center mb-5">
             <button
-              class="mt-5 poppins-semibold"
+              class="poppins-semibold"
               data-bs-toggle="modal"
               data-bs-target="#aboutModal"
             >
@@ -214,7 +216,7 @@ The quick brown fox jumps over the lazy dog</textarea
             </div>
           </div>
         </div>
-        <div class="col bg-4 ciphertext br-tr br-br">
+        <div id="bg-2" class="col bg-4 ciphertext br-tr br-br">
           <p class="mt-120 mb-5 poppins-semibold fs-3" id="title-2">
             CIPHERTEXT
           </p>
@@ -253,12 +255,16 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
     const menuContent = document.getElementById("menuContent");
     const menuCaesar = document.getElementById("menuCaesar");
     const menuRailFence = document.getElementById("menuRailFence");
+    const menuXOR = document.getElementById("menuXOR");
+    const menuRSA = document.getElementById("menuRSA");
     const menuModal = new bootstrap.Modal(document.getElementById("menuModal"));
 
     const text1 = document.getElementById("text-1");
     const text2 = document.getElementById("text-2");
     const judul1 = document.getElementById("title-1");
     const judul2 = document.getElementById("title-2");
+    const bg1 = document.getElementById("bg-1");
+    const bg2 = document.getElementById("bg-2");
 
     // Function to update menu content based on selected cipher
     function updateMenuContent() {
@@ -270,16 +276,12 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
             <td colspan="2" class="p-2"><input class="input-shift" type="text" id="key" /></td>
             <td class="p-2" id="plusButton"><button>+</button></td>
           </tr>
-          <tr><td colspan="4" class="p-2 poppins-medium">CASE STRATEGY</td></tr>
-          <tr><td colspan="4" class="p-2">Cell 3,1</td></tr>
-          <tr><td colspan="4" class="p-2 poppins-medium">FOREIGN CHARACTERS</td></tr>
-          <tr><td colspan="4" class="p-2">Cell 3,1</td></tr>
         </table>
       `;
 
       const railFenceTemplate = `
         <table class="mt-5 mx-auto" style="border-collapse: collapse">
-          <tr><td colspan="4" class="p-2 poppins-medium">SHIFT BY</td></tr>
+          <tr><td colspan="4" class="p-2 poppins-medium">KEY</td></tr>
           <tr>
             <td class="p-2" id="minusButton"><button>-</button></td>
             <td colspan="2" class="p-2"><input class="input-shift" type="text" id="key" /></td>
@@ -288,18 +290,68 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
         </table>
       `;
 
+      const XORTemplate = `
+        <div class="container mt-5" style="max-width: 600px;">
+          <div class="form-group mb-3 text-center">
+            <label for="n-value" class="poppins-medium">KEY :</label>
+            <input class="form-control w-25 mx-auto mt-3" type="text" id="key"/>
+          </div>
+        </div>
+      `;
+
+      const RSATemplate = `
+        <div class="container mt-3" style="max-width: 600px;">
+          <div class="form-group mb-3 text-center">
+            <label for="n-value" class="poppins-medium">N VALUE :</label>
+            <select class="form-control w-25 mx-auto" id="n-value">
+              <option class="text-center" value="512">512 bit</option>
+              <option class="text-center" value="1024">1024 bit</option>
+              <option class="text-center" value="2048">2048 bit</option>
+            </select>
+          </div>
+          <div class="text-center mt-4">
+            <button class="btn btn-primary">Generate Keys</button>
+          </div>
+        </div>
+        <div class="container mt-5 w-75 mx-auto">
+          <div class="mb-3 text-center">
+            <label for="public-key" class="poppins-medium">PUBLIC KEY</label>
+            <textarea class="form-control" id="public-key" rows="3"></textarea>
+          </div>
+          <div class="mb-3 text-center">
+            <label for="private-key" class="poppins-medium">PRIVATE KEY</label>
+            <textarea class="form-control" id="private-key" rows="3"></textarea>
+          </div>
+          <div class="text-center mt-4">
+            <button class="btn btn-primary">ENCODE</button>
+          </div>
+        </div>
+              `;
+
       switch (menu) {
         case "caesarCipher":
           menuContent.innerHTML = caesarTemplate;
+          minusAndPlusButton();
           break;
         case "railFenceCipher":
           menuContent.innerHTML = railFenceTemplate;
+          minusAndPlusButton();
+          break;
+        case "XOR":
+          menuContent.innerHTML = XORTemplate;
+          break;
+        case "RSA":
+          menuContent.innerHTML = RSATemplate;
           break;
         default:
-          menuContent.innerHTML = "Please Select a Menu";
+          menuContent.innerHTML = caesarTemplate;
           break;
       }
 
+      // key.addEventListener("input", runCode);
+    }
+
+    function minusAndPlusButton() {
       // Initialize button and key input
       const minusButton = document.getElementById("minusButton");
       const plusButton = document.getElementById("plusButton");
@@ -316,8 +368,6 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
         key.value = parseInt(key.value) + 1;
         runCode();
       });
-
-      key.addEventListener("input", runCode);
     }
 
     updateMenuContent();
@@ -337,6 +387,20 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
       menuTitle.innerHTML = "RAIL FENCE CIPHER";
       updateMenuContent();
       key.value = 1;
+      menuModal.hide();
+    });
+
+    menuXOR.addEventListener("click", () => {
+      menu = "XOR";
+      menuTitle.innerHTML = "XOR";
+      updateMenuContent();
+      menuModal.hide();
+    });
+
+    menuRSA.addEventListener("click", () => {
+      menu = "RSA";
+      menuTitle.innerHTML = "RSA";
+      updateMenuContent();
       menuModal.hide();
     });
 
@@ -362,11 +426,27 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
     encodeButton.addEventListener("click", () => {
       swapMode();
       updateButtonState(true);
+      encodeButton.classList.remove("poppins-light");
+      encodeButton.classList.add("poppins-semibold");
+      decodeButton.classList.remove("poppins-semibold");
+      decodeButton.classList.add("poppins-light");
     });
 
     decodeButton.addEventListener("click", () => {
       swapMode();
       updateButtonState(false);
+      decodeButton.classList.remove("poppins-light");
+      decodeButton.classList.add("poppins-semibold");
+      encodeButton.classList.remove("poppins-semibold");
+      encodeButton.classList.add("poppins-light");
+      bg2.classList.remove("bg-4");
+      bg2.classList.add("bg-2");
+      text2.classList.remove("bg-4");
+      text2.classList.add("bg-2");
+      bg1.classList.remove("bg-2");
+      bg1.classList.add("bg-4");
+      text1.classList.remove("bg-2");
+      text1.classList.add("bg-4");
     });
 
     // Event listeners for text and shift changes
