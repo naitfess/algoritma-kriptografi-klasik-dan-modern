@@ -6,3 +6,5 @@ function caesarCipher(str, shift) {
     return String.fromCharCode(newCharCode);
   });
 }
+
+window.caesarCipher = caesarCipher;

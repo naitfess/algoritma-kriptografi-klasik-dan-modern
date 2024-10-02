@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bootstrap demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.5.23/jsrsasign-all-min.js"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -135,7 +136,9 @@ The quick brown fox jumps over the lazy dog</textarea
             <div class="modal-dialog modal-xl">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="aboutModalLabel">ABOUT</h1>
+                  <h1 class="modal-title fs-5 text-white" id="aboutModalLabel">
+                    ABOUT
+                  </h1>
                   <button
                     type="button"
                     class="btn-close"
@@ -145,66 +148,33 @@ The quick brown fox jumps over the lazy dog</textarea
                 </div>
                 <div class="modal-body">
                   <div class="row g-3 justify-content-center">
-                    <div class="col-2">
-                      <div class="card" style="width: 100%">
-                        <img
-                          src="..."
-                          class="card-img-top"
-                          alt="Profile Image"
-                        />
-                        <div class="card-body">
-                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
-                          <p class="card-text">123220112</p>
+                    <div class="col-6 col-sm-4 col-md-2">
+                      <div class="card w-100">
+                        <div class="card-body text-center">
+                          <p class="card-text">Nurma Intan Harianja</p>
+                          <p class="card-text">123220046</p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-2">
-                      <div class="card" style="width: 100%">
-                        <img
-                          src="..."
-                          class="card-img-top"
-                          alt="Profile Image"
-                        />
-                        <div class="card-body">
-                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
-                          <p class="card-text">123220112</p>
+                    <div class="col-6 col-sm-4 col-md-2">
+                      <div class="card w-100">
+                        <div class="card-body text-center">
+                          <p class="card-text">Febrian Chrisna Ardianto</p>
+                          <p class="card-text">123220051</p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-2">
-                      <div class="card" style="width: 100%">
-                        <img
-                          src="..."
-                          class="card-img-top"
-                          alt="Profile Image"
-                        />
-                        <div class="card-body">
-                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
-                          <p class="card-text">123220112</p>
+                    <div class="col-6 col-sm-4 col-md-2">
+                      <div class="card w-100">
+                        <div class="card-body text-center">
+                          <p class="card-text">Ahmad Shidiq Misbahudin</p>
+                          <p class="card-text">123220073</p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-2">
-                      <div class="card" style="width: 100%">
-                        <img
-                          src="..."
-                          class="card-img-top"
-                          alt="Profile Image"
-                        />
-                        <div class="card-body">
-                          <p class="card-text">Seftian Alung Qiu Prakoso</p>
-                          <p class="card-text">123220112</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-2">
-                      <div class="card" style="width: 100%">
-                        <img
-                          src="..."
-                          class="card-img-top"
-                          alt="Profile Image"
-                        />
-                        <div class="card-body">
+                    <div class="col-6 col-sm-4 col-md-2">
+                      <div class="card w-100">
+                        <div class="card-body text-center">
                           <p class="card-text">Seftian Alung Qiu Prakoso</p>
                           <p class="card-text">123220112</p>
                         </div>
@@ -226,9 +196,7 @@ The quick brown fox jumps over the lazy dog</textarea
               rows="15"
               id="text-2"
               disabled
-            >
-uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
-            >
+            ></textarea>
           </div>
         </div>
       </div>
@@ -247,10 +215,17 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
     <script src="js/caesarCipher.js"></script>
     <!-- rail fence cipher -->
     <script src="js/railFenceCipher.js"></script>
+    <!-- xor -->
+    <script src="js/xor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.5.23/jsrsasign-all-min.js"></script>
+    <!-- rsa -->
+    <script src="js/rsa.js"></script>
   </body>
   <script>
     // Menu state and elements
     let menu = "caesarCipher";
+    let choice = "encode";
+    let foreignChars = "include";
     const menuTitle = document.getElementById("menuTitle");
     const menuContent = document.getElementById("menuContent");
     const menuCaesar = document.getElementById("menuCaesar");
@@ -269,69 +244,166 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
     // Function to update menu content based on selected cipher
     function updateMenuContent() {
       const caesarTemplate = `
-        <table class="mt-5 mx-auto" style="border-collapse: collapse">
-          <tr><td colspan="4" class="p-2 poppins-medium">SHIFT BY</td></tr>
-          <tr>
-            <td class="p-2" id="minusButton"><button>-</button></td>
-            <td colspan="2" class="p-2"><input class="input-shift" type="text" id="key" /></td>
-            <td class="p-2" id="plusButton"><button>+</button></td>
-          </tr>
-        </table>
+        <div class="container mt-5 w-50 mx-auto">
+          <div class="mb-3 text-center">
+            <label for="key" class="poppins-medium">SHIFT BY</label>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <button id="minusButton" class="mx-2">-</button>
+              <input class="input-shift text-center w-25" type="text" id="key" />
+              <button id="plusButton" class="mx-2">+</button>
+            </div>
+          </div>
+          <div class="mt-4 text-center">
+            <label class="poppins-medium">FOREIGN CHARS</label>
+            <div class="d-flex justify-content-center">
+              <button id="includeButton" class="mx-2 poppins-semibold">INCLUDE</button>
+              <button id="ignoreButton" class="mx-2 poppins-light">IGNORE</button>
+            </div>
+          </div>
+        </div>
       `;
 
       const railFenceTemplate = `
-        <table class="mt-5 mx-auto" style="border-collapse: collapse">
-          <tr><td colspan="4" class="p-2 poppins-medium">KEY</td></tr>
-          <tr>
-            <td class="p-2" id="minusButton"><button>-</button></td>
-            <td colspan="2" class="p-2"><input class="input-shift" type="text" id="key" /></td>
-            <td class="p-2" id="plusButton"><button>+</button></td>
-          </tr>
-        </table>
+        <div class="container mt-5 w-50 mx-auto">
+          <div class="mb-3 text-center">
+            <label for="key" class="poppins-medium">KEY</label>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <button id="minusButton" class="mx-2">-</button>
+              <input class="input-shift text-center w-25" type="text" id="key" />
+              <button id="plusButton" class="mx-2">+</button>
+            </div>
+          </div>
+          <div class="mt-4 text-center">
+            <label class="poppins-medium">FOREIGN CHARS</label>
+            <div class="d-flex justify-content-center">
+              <button id="includeButton" class="mx-2 poppins-semibold">INCLUDE</button>
+              <button id="ignoreButton" class="mx-2 poppins-light">IGNORE</button>
+            </div>
+          </div>
+        </div>
       `;
 
       const XORTemplate = `
         <div class="container mt-5" style="max-width: 600px;">
           <div class="form-group mb-3 text-center">
-            <label for="n-value" class="poppins-medium">KEY :</label>
-            <input class="form-control w-25 mx-auto mt-3" type="text" id="key"/>
+            <label for="key" class="poppins-medium">KEY :</label>
+            <textarea class="form-control w-50 mx-auto mt-3" type="text" id="key" rows="3"/></textarea>
+          </div>
+          <div class="form-group mb-3 text-center">
+            <label for="converted-key" class="poppins-medium">CONVERTED KEY :</label>
+            <textarea class="form-control w-50 mx-auto mt-3" type="text" id="converted-key" rows="3" disabled/></textarea>
+          </div>
+          <div class="form-group mb-3 text-center">
+            <label for="input-type" class="poppins-medium">INPUT : </label>
+            <select class="form-control w-25 mx-auto" id="input-type">
+              <option class="text-center" value="teks">teks</option>
+              <option class="text-center" value="binary">binary</option>
+            </select>
+          </div>
+          <div class="form-group mb-3 text-center">
+            <label for="key-type" class="poppins-medium">KEY : </label>
+            <select class="form-control w-25 mx-auto" id="key-type">
+              <option class="text-center" value="teks">teks</option>
+              <option class="text-center" value="binary">binary</option>
+            </select>
+          </div>
+          <div class="form-group mb-3 text-center">
+            <label for="output-type" class="poppins-medium">OUTPUT : </label>
+            <select class="form-control w-25 mx-auto" id="output-type">
+              <option class="text-center" value="teks">teks</option>
+              <option class="text-center" value="binary">binary</option>
+            </select>
           </div>
         </div>
       `;
 
       const RSATemplate = `
         <div class="container mt-3" style="max-width: 600px;">
-          <div class="form-group mb-3 text-center">
-            <label for="n-value" class="poppins-medium">N VALUE :</label>
-            <select class="form-control w-25 mx-auto" id="n-value">
-              <option class="text-center" value="512">512 bit</option>
-              <option class="text-center" value="1024">1024 bit</option>
-              <option class="text-center" value="2048">2048 bit</option>
-            </select>
+          <div class="form-group row mb-3 justify-content-center">
+            <label for="n-value" class="col-form-label text-right poppins-medium">N VALUE :</label>
+            <div class="col-sm-4">
+              <select class="form-control w-100 mx-auto" id="n-value">
+                <option class="text-center" value="512">512 bit</option>
+                <option class="text-center" value="1024">1024 bit</option>
+              </select>
+            </div>
           </div>
           <div class="text-center mt-4">
-            <button class="btn btn-primary">Generate Keys</button>
+            <button class="btn btn-primary" id="generate-key">Generate Keys</button>
+          </div>
+          <div class="text-center mt-4">
+            <button 
+              data-bs-toggle="modal"
+              data-bs-target="#showKeyModal"
+              class="btn btn-primary"
+              id="show-key">Show Keys
+            </button>
           </div>
         </div>
         <div class="container mt-5 w-75 mx-auto">
           <div class="mb-3 text-center">
-            <label for="public-key" class="poppins-medium">PUBLIC KEY</label>
-            <textarea class="form-control" id="public-key" rows="3"></textarea>
-          </div>
-          <div class="mb-3 text-center">
-            <label for="private-key" class="poppins-medium">PRIVATE KEY</label>
-            <textarea class="form-control" id="private-key" rows="3"></textarea>
+            <label for="rsa-key" class="poppins-medium">KEY</label>
+            <textarea class="form-control" id="rsa-key" rows="3"></textarea>
           </div>
           <div class="text-center mt-4">
-            <button class="btn btn-primary">ENCODE</button>
+            <button class="btn btn-primary" id="run">GENERATE</button>
           </div>
         </div>
+        <div
+            class="modal fade"
+            id="showKeyModal"
+            tabindex="-1"
+            aria-labelledby="showKeyModalLabel"
+            aria-hidden="true"
+            style="color: #0b132b"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="showKeyModalLabel">KEYS</h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="container w-75 mx-auto">
+                    <div class="mb-3 text-center">
+                      <label for="public-key" class="poppins-medium"
+                        >PUBLIC KEY</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="public-key"
+                        rows="3"
+                        disabled
+                      ></textarea>
+                    </div>
+                    <div class="mb-3 text-center">
+                      <label for="private-key" class="poppins-medium"
+                        >PRIVATE KEY</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="private-key"
+                        rows="3"
+                        disabled
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
               `;
 
       switch (menu) {
         case "caesarCipher":
           menuContent.innerHTML = caesarTemplate;
           minusAndPlusButton();
+          runCode();
           break;
         case "railFenceCipher":
           menuContent.innerHTML = railFenceTemplate;
@@ -339,19 +411,86 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
           break;
         case "XOR":
           menuContent.innerHTML = XORTemplate;
+          const key = document.getElementById("key");
+          const convertedKey = document.getElementById("converted-key");
+          const inputType = document.getElementById("input-type");
+          const keyType = document.getElementById("key-type");
+          const outputType = document.getElementById("output-type");
+          inputType.value = "teks";
+          keyType.value = "teks";
+          outputType.value = "teks";
+          key.value = "haqqi";
+
+          keyTypeHandler();
+          key.addEventListener("input", keyTypeHandler);
+          keyType.addEventListener("input", () => {
+            keyTypeHandler();
+            runCode();
+          });
+
+          key.addEventListener("input", runCode);
+          inputType.addEventListener("input", runCode);
+          outputType.addEventListener("input", runCode);
+
+          text1.addEventListener("input", runCode);
+          function keyTypeHandler() {
+            if (keyType.value === "teks") {
+              convertedKey.value = stringToBinary(key.value);
+            } else {
+              convertedKey.value = binaryToString(key.value);
+            }
+          }
           break;
         case "RSA":
           menuContent.innerHTML = RSATemplate;
+          const nValue = document.getElementById("n-value");
+          const generateKey = document.getElementById("generate-key");
+          const generate = document.getElementById("run");
+          const publicKey = document.getElementById("public-key");
+          const privateKey = document.getElementById("private-key");
+
+          generateKey.addEventListener("click", () => {
+            const n = parseInt(nValue.value);
+            const keys = generateRSAKeys(n);
+            publicKey.value = keys.publicKey;
+            privateKey.value = keys.privateKey;
+          });
+
+          generate.addEventListener("click", () => {
+            runCode();
+          });
           break;
         default:
           menuContent.innerHTML = caesarTemplate;
+          minusAndPlusButton();
+          runCode();
           break;
       }
-
-      // key.addEventListener("input", runCode);
     }
 
     function minusAndPlusButton() {
+      // Initialize foreign chars button
+      const includeButton = document.getElementById("includeButton");
+      const ignoreButton = document.getElementById("ignoreButton");
+
+      includeButton.addEventListener("click", () => {
+        includeButton.classList.remove("poppins-light");
+        includeButton.classList.add("poppins-semibold");
+        ignoreButton.classList.remove("poppins-semibold");
+        ignoreButton.classList.add("poppins-light");
+        foreignChars = "include";
+        runCode();
+      });
+
+      ignoreButton.addEventListener("click", () => {
+        ignoreButton.classList.remove("poppins-light");
+        ignoreButton.classList.add("poppins-semibold");
+        includeButton.classList.remove("poppins-semibold");
+        includeButton.classList.add("poppins-light");
+        foreignChars = "ignore";
+        runCode();
+      });
+
       // Initialize button and key input
       const minusButton = document.getElementById("minusButton");
       const plusButton = document.getElementById("plusButton");
@@ -368,8 +507,26 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
         key.value = parseInt(key.value) + 1;
         runCode();
       });
-    }
 
+      key.addEventListener("input", function () {
+        const currentValue = key.value;
+
+        // Check if the input is a number and not empty
+        if (!/^\d+$/.test(currentValue)) {
+          key.value = currentValue.replace(/\D/g, ""); // Remove non-numeric characters
+        }
+
+        key.addEventListener("blur", function () {
+          // Ensure input is not empty, if empty set it back to 1
+          if (key.value === "") {
+            key.value = 1;
+            runCode();
+          }
+        });
+      });
+
+      key.addEventListener("input", runCode);
+    }
     updateMenuContent();
 
     // Event listeners for cipher menu
@@ -377,9 +534,9 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
       menu = "caesarCipher";
       menuTitle.innerHTML = "CAESAR CIPHER";
       updateMenuContent();
-      console.log(minusButton);
       key.value = 1;
       menuModal.hide();
+      runCode();
     });
 
     menuRailFence.addEventListener("click", () => {
@@ -388,24 +545,26 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
       updateMenuContent();
       key.value = 1;
       menuModal.hide();
+      runCode();
     });
 
     menuXOR.addEventListener("click", () => {
       menu = "XOR";
-      menuTitle.innerHTML = "XOR";
+      menuTitle.innerHTML = "Exclusive OR (XOR)";
       updateMenuContent();
       menuModal.hide();
+      runCode();
     });
 
     menuRSA.addEventListener("click", () => {
       menu = "RSA";
-      menuTitle.innerHTML = "RSA";
+      menuTitle.innerHTML = "Rivest Shamir Adleman (RSA)";
       updateMenuContent();
       menuModal.hide();
+      // runCode();
     });
 
     // Swap encode and decode
-    let choice = "encode";
     const encodeButton = document.getElementById("encodeButton");
     const decodeButton = document.getElementById("decodeButton");
 
@@ -438,6 +597,7 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
       bg1.classList.remove("bg-4");
       text1.classList.add("bg-2");
       text1.classList.remove("bg-4");
+      runCode();
     });
 
     decodeButton.addEventListener("click", () => {
@@ -455,6 +615,7 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
       bg1.classList.add("bg-4");
       text1.classList.remove("bg-2");
       text1.classList.add("bg-4");
+      runCode();
     });
 
     // Event listeners for text and shift changes
@@ -462,21 +623,67 @@ uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph</textarea
 
     // Main function to handle encryption/decryption
     function runCode() {
-      const shift = parseInt(key.value);
-
       switch (menu) {
         case "caesarCipher":
+          const keyC = parseInt(key.value);
+          const inputTextC = ignoreForeignChars();
           text2.value =
             choice === "encode"
-              ? caesarCipher(text1.value, shift)
-              : caesarCipher(text1.value, -shift);
+              ? caesarCipher(inputTextC, keyC)
+              : caesarCipher(inputTextC, -keyC);
           break;
         case "railFenceCipher":
+          const keyRF = parseInt(key.value);
+          const inputTextRF = ignoreForeignChars();
           text2.value =
             choice === "encode"
-              ? railFenceCipher(text1.value, shift)
-              : railFenceCipher(text1.value, -shift);
+              ? encryptRailFenceCipher(inputTextRF, keyRF)
+              : decryptRailFenceCipher(inputTextRF, keyRF);
           break;
+        case "XOR":
+          const keyType = document.getElementById("key-type");
+          const inputType = document.getElementById("input-type");
+          const outputType = document.getElementById("output-type");
+
+          const keyXOR = key.value;
+          text2.value =
+            choice === "encode"
+              ? XOR(
+                  text1.value,
+                  keyXOR,
+                  inputType.value,
+                  keyType.value,
+                  outputType.value
+                )
+              : XOR(
+                  text1.value,
+                  keyXOR,
+                  inputType.value,
+                  keyType.value,
+                  outputType.value
+                );
+          break;
+        case "RSA":
+          const publicKey = document.getElementById("public-key");
+          const privateKey = document.getElementById("private-key");
+          const rsaKey = document.getElementById("rsa-key");
+
+          const keyRSA = rsaKey.value;
+          text2.value =
+            choice === "encode"
+              ? encryptRSA(text1.value, keyRSA)
+              : decryptRSA(text1.value, keyRSA);
+          break;
+      }
+    }
+
+    function ignoreForeignChars() {
+      if (foreignChars === "ignore") {
+        const inputText = text1.value;
+        const outputText = inputText.replace(/\s+/g, ""); // Menghilangkan spasi
+        return outputText;
+      } else {
+        return text1.value;
       }
     }
   </script>
