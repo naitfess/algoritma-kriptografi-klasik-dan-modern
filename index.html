@@ -31,7 +31,7 @@
           <div class="input-plaintext mx-5 text-start">
             <textarea
               class="ta fs-4 bg-2 w-100 fixed-rows"
-              rows="15"
+              rows="12"
               id="text-1"
             >
 The quick brown fox jumps over the lazy dog</textarea
@@ -105,7 +105,8 @@ The quick brown fox jumps over the lazy dog</textarea
                     <li>
                       <div>
                         <h2>SUPER ENCRYPTION</h2>
-                        <button>Caesar Cipher</button>
+                        <button id="menuSuper">Super Encryption</button>
+                        <button id="menuSuper-2">Super Encryption-2</button>
                       </div>
                     </li>
                   </ul>
@@ -193,7 +194,7 @@ The quick brown fox jumps over the lazy dog</textarea
           <div class="input-plaintext mx-5 fs-3 text-start">
             <textarea
               class="ta fs-4 bg-4 w-100 fixed-rows"
-              rows="15"
+              rows="12"
               id="text-2"
               disabled
             ></textarea>
@@ -232,6 +233,8 @@ The quick brown fox jumps over the lazy dog</textarea
     const menuRailFence = document.getElementById("menuRailFence");
     const menuXOR = document.getElementById("menuXOR");
     const menuRSA = document.getElementById("menuRSA");
+    const menuSuper = document.getElementById("menuSuper");
+    const menuSuper2 = document.getElementById("menuSuper-2");
     const menuModal = new bootstrap.Modal(document.getElementById("menuModal"));
 
     const text1 = document.getElementById("text-1");
@@ -320,19 +323,22 @@ The quick brown fox jumps over the lazy dog</textarea
       const RSATemplate = `
         <div class="container mt-3" style="max-width: 600px;">
           <div class="form-group row mb-3 justify-content-center">
-            <label for="n-value" class="col-form-label text-right poppins-medium">N VALUE :</label>
+            <label for="p-value" class="col-form-label text-right poppins-medium">p VALUE :</label>
             <div class="col-sm-4">
-              <select class="form-control w-100 mx-auto" id="n-value">
-                <option class="text-center" value="512">512 bit</option>
-                <option class="text-center" value="1024">1024 bit</option>
-              </select>
+              <input type="text" class="form-control" id="p-value" />
+            </div>
+          </div>
+          <div class="form-group row mb-3 justify-content-center">
+            <label for="q-value" class="col-form-label text-right poppins-medium">q VALUE :</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="q-value" />
             </div>
           </div>
           <div class="text-center mt-4">
             <button class="btn btn-primary" id="generate-key">Generate Keys</button>
           </div>
           <div class="text-center mt-4">
-            <button 
+            <button
               data-bs-toggle="modal"
               data-bs-target="#showKeyModal"
               class="btn btn-primary"
@@ -399,6 +405,66 @@ The quick brown fox jumps over the lazy dog</textarea
           </div>
               `;
 
+      const superTemplate = `
+        <div class="container mt-5 w-50 mx-auto">
+          <div class="mb-3 text-center">
+            <label for="caesar-key" class="poppins-medium">CAESAR KEY</label>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <button id="minusButton1" class="mx-2">-</button>
+              <input class="input-shift text-center w-25" type="text" id="caesar-key" />
+              <button id="plusButton1" class="mx-2">+</button>
+            </div>
+          </div>
+          <div class="mb-3 text-center">
+            <label for="railfence-key" class="poppins-medium">RAIL FENCE KEY</label>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <button id="minusButton2" class="mx-2">-</button>
+              <input class="input-shift text-center w-25" type="text" id="railfence-key" />
+              <button id="plusButton2" class="mx-2">+</button>
+            </div>
+          </div>
+          <div class="form-group mb-3 text-center">
+            <label for="xor-key" class="poppins-medium">XOR KEY :</label>
+            <textarea class="form-control w-50 mx-auto mt-3" type="text" id="xor-key" rows="3"/></textarea>
+          </div>
+          <div class="text-center mt-4">
+            <button class="btn btn-primary" id="run">Generate</button>
+          </div>
+        </div>
+      `;
+
+      const superTemplate2 = `
+        <div class="container mt-5 w-50 mx-auto">
+          <div class="mb-3 text-center">
+            <label for="caesar-key2" class="poppins-medium">CAESAR KEY</label>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <button id="minusButton1" class="mx-2">-</button>
+              <input class="input-shift text-center w-25" type="text" id="caesar-key2" />
+              <button id="plusButton1" class="mx-2">+</button>
+            </div>
+          </div>
+          <div class="mb-3 text-center">
+            <label for="railfence-key2" class="poppins-medium">RAIL FENCE KEY</label>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <button id="minusButton2" class="mx-2">-</button>
+              <input class="input-shift text-center w-25" type="text" id="railfence-key2" />
+              <button id="plusButton2" class="mx-2">+</button>
+            </div>
+          </div>
+          <div class="form-group mb-3 text-center">
+            <label for="xor-key2" class="poppins-medium">XOR KEY :</label>
+            <textarea class="form-control w-50 mx-auto mt-3" type="text" id="xor-key2" rows="3"/></textarea>
+          </div>
+          <div class="form-group mb-3 text-center">
+            <label for="rsa-key2" class="poppins-medium">RSA KEY :</label>
+            <textarea class="form-control w-50 mx-auto mt-3" type="text" id="rsa-key2" rows="3"/></textarea>
+          </div>
+          <div class="text-center mt-4">
+            <button class="btn btn-primary" id="run2">Generate</button>
+          </div>
+        </div>
+      `;
+
       switch (menu) {
         case "caesarCipher":
           menuContent.innerHTML = caesarTemplate;
@@ -443,22 +509,184 @@ The quick brown fox jumps over the lazy dog</textarea
           break;
         case "RSA":
           menuContent.innerHTML = RSATemplate;
-          const nValue = document.getElementById("n-value");
+          const pValue = document.getElementById("p-value");
+          const qValue = document.getElementById("q-value");
           const generateKey = document.getElementById("generate-key");
           const generate = document.getElementById("run");
           const publicKey = document.getElementById("public-key");
           const privateKey = document.getElementById("private-key");
+          pValue.value = 1000000033;
+          qValue.value = 1000000007;
 
           generateKey.addEventListener("click", () => {
-            const n = parseInt(nValue.value);
-            const keys = generateRSAKeys(n);
-            publicKey.value = keys.publicKey;
-            privateKey.value = keys.privateKey;
+            const p = BigInt(pValue.value);
+            const q = BigInt(qValue.value);
+            const keys = generateRSAKeys(p, q);
+            publicKey.value = JSON.stringify(
+              convertBigIntToString(keys.publicKey)
+            );
+            privateKey.value = JSON.stringify(
+              convertBigIntToString(keys.privateKey)
+            );
           });
 
+          function convertBigIntToString(obj) {
+            return JSON.parse(
+              JSON.stringify(obj, (key, value) =>
+                typeof value === "bigint" ? value.toString() : value
+              )
+            );
+          }
           generate.addEventListener("click", () => {
             runCode();
           });
+          break;
+        case "superEncryption":
+          menuContent.innerHTML = superTemplate;
+          const caesarKey = document.getElementById("caesar-key");
+          const railFenceKey = document.getElementById("railfence-key");
+          const xorKey = document.getElementById("xor-key");
+
+          xorKey.value = "haqqi";
+
+          // Initialize button and key input
+          const minusButton1 = document.getElementById("minusButton1");
+          const plusButton1 = document.getElementById("plusButton1");
+          const minusButton2 = document.getElementById("minusButton2");
+          const plusButton2 = document.getElementById("plusButton2");
+          const runButton = document.getElementById("run");
+          caesarKey.value = 1;
+          railFenceKey.value = 1;
+
+          // Add event listeners for buttons and key input
+          minusButton1.addEventListener("click", () => {
+            caesarKey.value = parseInt(caesarKey.value) - 1;
+          });
+
+          plusButton1.addEventListener("click", () => {
+            caesarKey.value = parseInt(caesarKey.value) + 1;
+          });
+
+          caesarKey.addEventListener("input", function () {
+            const currentValue = caesarKey.value;
+
+            // Check if the input is a number and not empty
+            if (!/^\d+$/.test(currentValue)) {
+              caesarKey.value = currentValue.replace(/\D/g, ""); // Remove non-numeric characters
+            }
+
+            caesarKey.addEventListener("blur", function () {
+              // Ensure input is not empty, if empty set it back to 1
+              if (caesarKey.value === "") {
+                caesarKey.value = 1;
+              }
+            });
+          });
+
+          minusButton2.addEventListener("click", () => {
+            railFenceKey.value = parseInt(railFenceKey.value) - 1;
+          });
+
+          plusButton2.addEventListener("click", () => {
+            railFenceKey.value = parseInt(railFenceKey.value) + 1;
+          });
+
+          railFenceKey.addEventListener("input", function () {
+            const currentValue = railFenceKey.value;
+
+            // Check if the input is a number and not empty
+            if (!/^\d+$/.test(currentValue)) {
+              railFenceKey.value = currentValue.replace(/\D/g, ""); // Remove non-numeric characters
+            }
+
+            railFenceKey.addEventListener("blur", function () {
+              // Ensure input is not empty, if empty set it back to 1
+              if (railFenceKey.value === "") {
+                railFenceKey.value = 1;
+              }
+            });
+          });
+
+          runButton.addEventListener("click", () => {
+            runCode();
+          });
+
+          // caesarKey.addEventListener("input", runCode);
+          // runCode();
+          break;
+        case "superEncryption2":
+          menuContent.innerHTML = superTemplate2;
+          const caesarKey2 = document.getElementById("caesar-key2");
+          const railFenceKey2 = document.getElementById("railfence-key2");
+          const xorKey2 = document.getElementById("xor-key2");
+          const rsaKey2 = document.getElementById("rsa-key2");
+
+          xorKey2.value = "haqqiii";
+
+          // Initialize button and key input
+          const minusButton12 = document.getElementById("minusButton1");
+          const plusButton12 = document.getElementById("plusButton1");
+          const minusButton22 = document.getElementById("minusButton2");
+          const plusButton22 = document.getElementById("plusButton2");
+          const runButton2 = document.getElementById("run2");
+          caesarKey2.value = 1;
+          railFenceKey2.value = 1;
+
+          // Add event listeners for buttons and key input
+          minusButton12.addEventListener("click", () => {
+            caesarKey2.value = parseInt(caesarKey2.value) - 1;
+          });
+
+          plusButton12.addEventListener("click", () => {
+            caesarKey2.value = parseInt(caesarKey2.value) + 1;
+          });
+
+          caesarKey2.addEventListener("input", function () {
+            const currentValue = caesarKey2.value;
+
+            // Check if the input is a number and not empty
+            if (!/^\d+$/.test(currentValue)) {
+              caesarKey2.value = currentValue.replace(/\D/g, ""); // Remove non-numeric characters
+            }
+
+            caesarKey2.addEventListener("blur", function () {
+              // Ensure input is not empty, if empty set it back to 1
+              if (caesarKey2.value === "") {
+                caesarKey2.value = 1;
+              }
+            });
+          });
+
+          minusButton22.addEventListener("click", () => {
+            railFenceKey2.value = parseInt(railFenceKey2.value) - 1;
+          });
+
+          plusButton22.addEventListener("click", () => {
+            railFenceKey2.value = parseInt(railFenceKey2.value) + 1;
+          });
+
+          railFenceKey2.addEventListener("input", function () {
+            const currentValue = railFenceKey2.value;
+
+            // Check if the input is a number and not empty
+            if (!/^\d+$/.test(currentValue)) {
+              railFenceKey2.value = currentValue.replace(/\D/g, ""); // Remove non-numeric characters
+            }
+
+            railFenceKey2.addEventListener("blur", function () {
+              // Ensure input is not empty, if empty set it back to 1
+              if (railFenceKey2.value === "") {
+                railFenceKey2.value = 1;
+              }
+            });
+          });
+
+          runButton2.addEventListener("click", () => {
+            runCode();
+          });
+
+          // caesarKey.addEventListener("input", runCode);
+          // runCode();
           break;
         default:
           menuContent.innerHTML = caesarTemplate;
@@ -564,6 +792,22 @@ The quick brown fox jumps over the lazy dog</textarea
       // runCode();
     });
 
+    menuSuper.addEventListener("click", () => {
+      menu = "superEncryption";
+      menuTitle.innerHTML = "Super Encryption";
+      updateMenuContent();
+      menuModal.hide();
+      // runCode();
+    });
+
+    menuSuper2.addEventListener("click", () => {
+      menu = "superEncryption2";
+      menuTitle.innerHTML = "Super Encryption-2";
+      updateMenuContent();
+      menuModal.hide();
+      // runCode();
+    });
+
     // Swap encode and decode
     const encodeButton = document.getElementById("encodeButton");
     const decodeButton = document.getElementById("decodeButton");
@@ -664,15 +908,110 @@ The quick brown fox jumps over the lazy dog</textarea
                 );
           break;
         case "RSA":
-          const publicKey = document.getElementById("public-key");
-          const privateKey = document.getElementById("private-key");
           const rsaKey = document.getElementById("rsa-key");
+          const keyRSA = JSON.parse(rsaKey.value, (key, value) =>
+            typeof value === "string" && !isNaN(value) ? BigInt(value) : value
+          );
 
-          const keyRSA = rsaKey.value;
           text2.value =
             choice === "encode"
               ? encryptRSA(text1.value, keyRSA)
               : decryptRSA(text1.value, keyRSA);
+          break;
+        case "superEncryption":
+          const caesarKey = document.getElementById("caesar-key");
+          const railFenceKey = document.getElementById("railfence-key");
+          const xorKey = document.getElementById("xor-key");
+
+          let keyCaesar = parseInt(caesarKey.value);
+          let keyRailFence = parseInt(railFenceKey.value);
+          let keyxor = xorKey.value;
+
+          function superEncryption(text, keyCaesar, keyRailFence, keyxor) {
+            const caesar = caesarCipher(text, keyCaesar);
+            console.log(caesar);
+            const railFence = encryptRailFenceCipher(caesar, keyRailFence);
+            console.log(railFence);
+            const xor = XOR(railFence, keyxor, "teks", "teks", "binary");
+            console.log(xor);
+            return xor;
+          }
+
+          function superDecryption(text, keyCaesar, keyRailFence, keyxor) {
+            const xor = XOR(text, keyxor, "binary", "teks", "teks");
+            const railFence = decryptRailFenceCipher(xor, keyRailFence);
+            const caesar = caesarCipher(railFence, -keyCaesar);
+            return caesar;
+          }
+
+          text2.value =
+            choice === "encode"
+              ? superEncryption(text1.value, keyCaesar, keyRailFence, keyxor)
+              : superDecryption(text1.value, keyCaesar, keyRailFence, keyxor);
+
+          break;
+
+        case "superEncryption2":
+          const caesarKey2 = document.getElementById("caesar-key2");
+          const railFenceKey2 = document.getElementById("railfence-key2");
+          const xorKey2 = document.getElementById("xor-key2");
+          const rsakey2 = document.getElementById("rsa-key2");
+
+          let keyCaesar2 = parseInt(caesarKey2.value);
+          let keyRailFence2 = parseInt(railFenceKey2.value);
+          let keyxor2 = xorKey2.value;
+          let keyrsa2 = JSON.parse(rsakey2.value, (key, value) =>
+            typeof value === "string" && !isNaN(value) ? BigInt(value) : value
+          );
+
+          function superEncryption2(
+            text,
+            keyCaesar2,
+            keyRailFence2,
+            keyxor2,
+            keyrsa2
+          ) {
+            const caesar = caesarCipher(text, keyCaesar2);
+            console.log(caesar);
+            const railFence = encryptRailFenceCipher(caesar, keyRailFence2);
+            console.log(railFence);
+            const rsa = encryptRSA(railFence, keyrsa2);
+            console.log(rsa);
+            const xor = XOR(rsa, keyxor2, "teks", "teks", "binary");
+            console.log(xor);
+            return xor; // XOR tetap terakhir
+          }
+
+          function superDecryption2(
+            text,
+            keyCaesar2,
+            keyRailFence2,
+            keyxor2,
+            keyrsa2
+          ) {
+            const xor = XOR(text, keyxor2, "binary", "teks", "teks");
+            const rsa = decryptRSA(xor, keyrsa2);
+            const railFence = decryptRailFenceCipher(rsa, keyRailFence2);
+            const caesar = caesarCipher(railFence, -keyCaesar2);
+            return caesar;
+          }
+
+          text2.value =
+            choice === "encode"
+              ? superEncryption2(
+                  text1.value,
+                  keyCaesar2,
+                  keyRailFence2,
+                  keyxor2,
+                  keyrsa2
+                )
+              : superDecryption2(
+                  text1.value,
+                  keyCaesar2,
+                  keyRailFence2,
+                  keyxor2,
+                  keyrsa2
+                );
           break;
       }
     }
